@@ -23,7 +23,7 @@ public class PlayerController : NetworkBehaviour
     public bool canMove = true;
  
     [SerializeField]
-    private float cameraYOffset = 0.4f;
+    private float cameraYOffset = 0.6f;
     private Camera playerCamera;
  
  
