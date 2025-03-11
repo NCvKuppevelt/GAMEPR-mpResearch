@@ -228,7 +228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4705822775579752870}
   - component: {fileID: 1399622566307607551}
-  - component: {fileID: 5627562102143323910}
+  - component: {fileID: 1712118364434706780}
   - component: {fileID: 72834381421901039}
   - component: {fileID: 7955277010278493375}
   m_Layer: 0
@@ -280,7 +280,7 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5627562102143323910
+--- !u!114 &1712118364434706780
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -289,13 +289,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 7284183812665175545}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6bc8ed116e53de47804ac1f5664cf77, type: 3}
+  m_Script: {fileID: 11500000, guid: afeae006023d9a94492abd736307188d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 72834381421901039}
   _networkObjectCache: {fileID: 0}
-  moveSpeed: 10
+  walkingSpeed: 7.5
+  runningSpeed: 11.5
+  jumpSpeed: 8
+  gravity: 20
+  lookSpeed: 2
+  lookXLimit: 45
+  canMove: 1
+  cameraYOffset: 0.4
 --- !u!114 &72834381421901039
 MonoBehaviour:
   m_ObjectHideFlags: 0
