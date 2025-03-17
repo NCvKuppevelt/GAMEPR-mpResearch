@@ -102,7 +102,6 @@ public class PlayerController : NetworkBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Spawning projectile");
             Instantiate(
                 projectile,
                 projectileSpawner.transform.position,
