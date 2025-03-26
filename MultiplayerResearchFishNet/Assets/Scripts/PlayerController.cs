@@ -1,39 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using FishNet.Connection;
 using FishNet.Object;
- 
+using Cursor = UnityEngine.Cursor;
+
 //This is made by Bobsi Unity - Youtube
+//Edited by 2425S2 minor GAMEPR Team Multiplayer
 public class PlayerController : NetworkBehaviour
 {
-    [Header("Base setup")]
-    public float walkingSpeed = 7.5f;
+    [Header("Base setup")] public float walkingSpeed = 7.5f;
     public float runningSpeed = 11.5f;
     public float jumpSpeed = 8.0f;
     public float gravity = 20.0f;
     public float lookSpeed = 2.0f;
     public float lookXLimit = 45.0f;
- 
-    CharacterController characterController;
-    Vector3 moveDirection = Vector3.zero;
-    float rotationX = 0;
- 
-    [HideInInspector]
-    public bool canMove = true;
- 
-    [SerializeField]
-    private float cameraYOffset = 0.6f;
+
+    private CharacterController characterController;
+    private Vector3 moveDirection = Vector3.zero;
+    private float rotationX;
+
+    [HideInInspector] public bool canMove = true;
+
+    [SerializeField] private float cameraYOffset = 0.6f;
     private Camera playerCamera;
- 
- 
+
     public override void OnStartClient()
     {
         base.OnStartClient();
-        if (base.IsOwner)
+        if (IsOwner)
         {
             playerCamera = Camera.main;
-            playerCamera.transform.position = new Vector3(transform.position.x, transform.position.y + cameraYOffset, transform.position.z);
+            playerCamera!.transform.position = new Vector3(
+                transform.position.x,
+                transform.position.y + cameraYOffset,
+                transform.position.z
+            );
             playerCamera.transform.SetParent(transform);
         }
         else
@@ -41,32 +41,30 @@ public class PlayerController : NetworkBehaviour
             gameObject.GetComponent<PlayerController>().enabled = false;
         }
     }
- 
-    void Start()
+
+    private void Start()
     {
         characterController = GetComponent<CharacterController>();
- 
+
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
- 
-    void Update()
+
+    private void Update()
     {
-        bool isRunning = false;
- 
         // Press Left Shift to run
-        isRunning = Input.GetKey(KeyCode.LeftShift);
- 
+        var isRunning = Input.GetKey(KeyCode.LeftShift);
+
         // We are grounded, so recalculate move direction based on axis
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 right = transform.TransformDirection(Vector3.right);
- 
-        float curSpeedX = canMove ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
-        float curSpeedY = canMove ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Horizontal") : 0;
-        float movementDirectionY = moveDirection.y;
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
- 
+        var forward = transform.TransformDirection(Vector3.forward);
+        var right = transform.TransformDirection(Vector3.right);
+
+        var curSpeedX = canMove ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
+        var curSpeedY = canMove ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Horizontal") : 0;
+        var movementDirectionY = moveDirection.y;
+        moveDirection = forward * curSpeedX + right * curSpeedY;
+
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
         {
             moveDirection.y = jumpSpeed;
@@ -75,15 +73,15 @@ public class PlayerController : NetworkBehaviour
         {
             moveDirection.y = movementDirectionY;
         }
- 
+
         if (!characterController.isGrounded)
         {
             moveDirection.y -= gravity * Time.deltaTime;
         }
- 
+
         // Move the controller
         characterController.Move(moveDirection * Time.deltaTime);
- 
+
         // Player and Camera rotation
         if (canMove && playerCamera != null)
         {
@@ -94,4 +92,3 @@ public class PlayerController : NetworkBehaviour
         }
     }
 }
- 
