@@ -23,9 +23,6 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private float cameraYOffset = 0.6f;
     private Camera playerCamera;
 
-    private GameObject projectileSpawner;
-    public GameObject projectile;
-
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -52,12 +49,6 @@ public class PlayerController : NetworkBehaviour
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        projectileSpawner = transform.Find("Projectile Spawner").gameObject;
-        if (projectile is null)
-        {
-            throw new Exception("projectile not set!");
-        }
     }
 
     private void Update()
@@ -98,15 +89,6 @@ public class PlayerController : NetworkBehaviour
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Instantiate(
-                projectile,
-                projectileSpawner.transform.position,
-                projectileSpawner.transform.rotation
-            );
         }
     }
 }
