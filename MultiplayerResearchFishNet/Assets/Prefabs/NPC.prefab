@@ -296,3 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02b509ccc512c114a8cad1065b6c1a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shootCooldown: 1
+  shootTimer: 0
+  rotateSpeed: 100
+  projectile: {fileID: 87858310768339325, guid: 9de9da0f342ce9d42b71b808c7191ad5, type: 3}

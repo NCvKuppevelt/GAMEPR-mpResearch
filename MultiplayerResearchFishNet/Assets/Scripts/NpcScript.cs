@@ -3,7 +3,7 @@ using UnityEngine;
 public class NpcScript : MonoBehaviour
 {
     public float shootCooldown = 1f;
-    public float shootTimer;
+    private float shootTimer;
     public float rotateSpeed = 10f;
     public GameObject projectile;
 
