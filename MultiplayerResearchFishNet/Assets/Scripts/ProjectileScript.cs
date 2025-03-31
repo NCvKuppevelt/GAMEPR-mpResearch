@@ -5,7 +5,7 @@ public class ProjectileScript : MonoBehaviour
     public float speed = 10f;
     public float expirationTime = 3f; //seconds
     private float timeAlive;
-    
+
     private void Start()
     {
         timeAlive = 0;
@@ -21,8 +21,12 @@ public class ProjectileScript : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnTriggerEnter(Collider _)
+    private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Player")) other.GetComponentInParent<PlayerRespawn>().RespawnPlayer();
+        else 
+        if (other.CompareTag("NPC")) other.GetComponentInParent<NpcScript>().Die();
+
         Destroy(gameObject);
     }
 }

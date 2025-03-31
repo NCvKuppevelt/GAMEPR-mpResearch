@@ -34,7 +34,7 @@ public class PlayerRespawn : NetworkBehaviour
         }
     }
 
-    private void RespawnPlayer()
+    public void RespawnPlayer()
     {
         if (IsOwner)
         {

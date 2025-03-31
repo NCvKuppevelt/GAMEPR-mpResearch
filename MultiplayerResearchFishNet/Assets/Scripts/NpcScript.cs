@@ -35,6 +35,7 @@ public class NpcScript : MonoBehaviour
 
     public void Die()
     {
-        transform.parent.GetComponent<NPCSpawnScript>().Reset();
+        // transform.parent.GetComponent<NPCSpawnScript>().Reset();
+        Destroy(gameObject);
     }
 }

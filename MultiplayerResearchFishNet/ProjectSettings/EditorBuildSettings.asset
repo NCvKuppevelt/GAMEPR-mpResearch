@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SinglePlayerScene.unity
     guid: 06a9fe96ace9dac4491df0e242353f12
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameScene.unity
     guid: ca15c2a909f20dd4aa0b82af11bf3f22
+  - enabled: 1
+    path: Assets/Scenes/BigWorld.unity
+    guid: e344b6b146ebf8e4fb545d7f0e65b532
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
