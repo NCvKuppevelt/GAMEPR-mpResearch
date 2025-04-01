@@ -4,19 +4,13 @@ using System.Linq;
 using UnityEngine;
 using FishNet.Object;
 
-public class PlayerShootProjectile : NetworkBehaviour
+public class PlayerShootProjectile : MonoBehaviour
 {
     private GameObject projectileSpawner;
     public  GameObject projectile;
 
     public           int              maxProjectiles     = 3;
     private readonly List<GameObject> _activeProjectiles = new();
-
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        if (!IsOwner) GetComponent<PlayerShootProjectile>().enabled = false;
-    }
 
     public void Start()
     {
@@ -29,19 +23,20 @@ public class PlayerShootProjectile : NetworkBehaviour
         if (!Input.GetMouseButtonDown(0)) return;
         if (_activeProjectiles.Count >= maxProjectiles) return;
 
-        SpawnProjectile(
-            projectile,
-            projectileSpawner.transform.position + projectileSpawner.transform.forward * 1.1f,
-            projectileSpawner.transform.rotation
-        );
+        // Uncomment when method implemented
+        // SpawnProjectile(
+        //     projectile,
+        //     projectileSpawner.transform.position + projectileSpawner.transform.forward * 1.1f,
+        //     projectileSpawner.transform.rotation
+        // );
     }
 
     [ServerRpc]
-    private void SpawnProjectile(GameObject projectileObj, Vector3 position, Quaternion rotation)
+    private void SpawnProjectile(
+        //TODO: Implement parameters
+        )
     {
-        var p = Instantiate(projectileObj, position, rotation);
-        ServerManager.Spawn(p);
-        _activeProjectiles.Add(p);
+        //TODO: Implement method
     }
     
     public void RemoveProjectile(GameObject projectileToRemove)
