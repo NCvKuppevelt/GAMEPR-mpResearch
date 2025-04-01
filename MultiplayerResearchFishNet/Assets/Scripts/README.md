@@ -9,10 +9,10 @@ De te maken applicatie dient de volgende onderdelen te bevatten:
 * Een FishNet NetworkManager
 * Een NPC (non-playable character)
 * Een speler-prefab
-* Een projectiel wat de speler kan afschieten
+* Een projectiel dat de speler kan afschieten
 
 ## 1. FishNet installeren
-Om te beginnen met multiplayer moet eerst het Unity-package van FishNet geinstalleerd worden. Dit kan via deze [link](https://assetstore.unity.com/packages/tools/network/fishnet-networking-evolved-207815).
+Om te beginnen met multiplayer moet eerst het Unity-package van FishNet geïnstalleerd worden. Dit kan via deze [link](https://assetstore.unity.com/packages/tools/network/fishnet-networking-evolved-207815).
 
 Om FishNet te gebruiken kunnen de assets (zoals de eerder genoemde NetworkManager) toegevoegd worden aan een standaard Unity-project.
 
@@ -21,13 +21,13 @@ Ga naar de [demo repository op GitHub]() en clone de [*naam*] branch. Open vervo
 
 Voordat spelers kunnen worden ingeladen in de scene, moet de scene van een aantal assets voorzien zijn. Namelijk:
 1. Een speelbare scene, dus een plane waarop de spelers kunnen staan
-2. Een spawnpunt, waarop de speler kan worden geinstantiëerd.
+2. Een spawnpunt, waarop de speler kan worden geïnstantieerd.
 3. Een FishNet [NetworkManager](https://fish-networking.gitbook.io/docs/manual/guides/components/managers/network-manager) prefab.
 
 ### 2a. De scene maken
 Binnen het project is een demo-scene genaamd ```naam``` aangeleverd, open deze.
 
-De scene bevat een standaard spelwereld met een aantal objecten waaracher spelers zich kunnen verschuilen en op kunnen springen.
+De scene bevat een standaard spelwereld met een aantal objecten waarachter spelers zich kunnen verschuilen en op kunnen springen.
 
 ### 2b. Een spawnpunt in de scene toevoegen
 Vervolgens moet een speler in de scene geladen kunnen worden. Dit kan worden gedaan door gebruik te maken van *spawnpoints*.
@@ -37,37 +37,36 @@ Om een spawnpoint te maken is een transform nodig, zodat de game posities binnen
 Maak binnen het ```World``` GameObject een nieuw leeg GameObject aan met de naam ```Spawnpoint```. Plaats dit GameObject op een willekeurige plek op de ```Ground``` plane.
 
 ### 2c. De NetworkManager configureren
-De scene is nu bijna klaar. Als laatste stap moet FishNet weten waar de spawnpoints in de scene zich bevinden, zodat er vervolgens spelers op kunnen worden geinstantiëerd.
+De scene is nu bijna klaar. Als laatste stap moet FishNet weten waar de spawnpoints in de scene zich bevinden, zodat er vervolgens spelers op kunnen worden geïnstantieerd.
 
 Met FishNet toegevoegd aan het Unity-project, navigeer naar:
 > Assets > FishNet > Demos > Prefabs
 
 Sleep vervolgens de ```NetworkManager```prefab in de scene.
 
-Binnen de prefab staan een aantal velden:
+Binnen deze prefab staan een aantal componenten:
 1. NetworkManager
 2. ObserverManager
 3. PlayerSpawner
 
-Navigeer naar de *PlayerSpawner* en vouw het veld *Spawns* uit. Hier kan de transform van het eerder gemaakte ```Spawnpoint``` in gesleept worden. FishNet herkent dit GameObject nu als een locatie waar *Spawnable Prefabs* kunnen worden geinstantiëerd.
+Navigeer naar het *PlayerSpawner* component en vouw het veld *Spawns* uit. Hier kan de eerder gemaakte ```Spawnpoint``` in gesleept worden. FishNet herkent dit GameObject nu als een locatie waar de *Spawnable Prefabs* kunnen worden geïnstantieerd.
 
 Om deze *Spawnable Prefabs* aan te geven, kunnen we binnen het *NetworkManager* component van de NetworkManager-prefab een Spawnable Prefabs-Asset definiëren. FishNet maakt hiervoor standaard al een asset aan, maar indien gewenst kan een andere collectie ook zelf gecreëerd worden binnen de Asset-directory:
 
-> Create > FishNet > Spawnable Prefabs
+> Rechtermuisklik > Create > FishNet > Spawnable Prefabs
 
 Binnen deze asset staat gedefiniëerd welke objecten FishNet kan instantiëren op de aangegeven spawnpoints. Hierover later meer.
 
 Selecteer deze asset als *Spawnable Prefabs* in het *NetworkManager* component van de NetworkManager.
 
 ## 3. De speler toevoegen
-Nu de scene is opgesteld kan de speler aangemaakt worden, zodat de scene straks speelbaar is.
-
-Er is al een speler-prefab aangeleverd binnen het project, echter ontbreekt het een aantal FishNet-gerelateerde onderdelen. Voor nu kan de speler, in theorie, rondlopen en springen. De speler moet echter ook kunnen schieten, en opnieuw spawnen wanneer deze wordt geraakt door projectielen van andere spelers.
+Nu de scene is opgesteld, kan de speler aangemaakt worden, zodat de scene straks speelbaar is.  
+Er is al een speler-prefab aangeleverd binnen het project, echter ontbreekt het een aantal FishNet-gerelateerde onderdelen. Voor nu kan de speler, in theorie, rondlopen en springen. De speler moet echter ook kunnen schieten, en opnieuw spawnen wanneer deze wordt geraakt door projectielen van andere spelers.  
+Aan de speler-prefab moeten twee FishNet-componenten worden toegevoegd: *Network Object* en *NetworkTransform*. *Network Object* zorgt ervoor dat dit object op elke verbonden gameïnstantie word geïnstantieerd. *NetworkTransform* zorgt ervoor dat de beweging van de speler naar elke andere gameïnstantie wordt gestuurd.
 
 ### 3a. De speler laten schieten
-Om de speler projectielen te laten schieten kan een apart script gedefinieerd worden, genaamd ```PlayerShootProjectile```. Dit script is van het type *NetworkBehaviour*, afgeleid van de Unity MonoBehaviour-klasse. Dit is de klasse die FishNet gebruikt voor onderdelen die over het netwerk verstuurd worden.
-
-Het begin van deze klasse is al gegeven:
+Om de speler projectielen te laten schieten kan een apart script gedefinieerd worden, genaamd ```PlayerShootProjectile```. Dit script is van het type *NetworkBehaviour*, afgeleid van de Unity MonoBehaviour-klasse. Dit is de klasse die FishNet gebruikt voor onderdelen die over het netwerk verstuurd worden.  
+Het begin van dit script is al gegeven:
 ```cs
 public class PlayerShootProjectile : NetworkBehaviour
 {
@@ -105,11 +104,11 @@ private void SpawnProjectile()
 }
 ```
 
-Om het projectiel in te spawnen moet de server weten wat deze moet instantieren, waar dit moet, en in welke richting. Om aan de server aan te geven dat er iets geinstantiëerd moet worden, kan gebruik gemaakt worden van ```ServerManager.Spawn()```.
+Om het projectiel in te spawnen moet de server weten wat deze moet instantiëren, waar dit moet, en in welke richting. Om aan de server aan te geven dat er iets geïnstantieerd moet worden, kan gebruik gemaakt worden van ```ServerManager.Spawn()```.
 
 > ServerManager is een public variable binnen de NetworkBehaviour-klasse, en kan aangeroepen worden binnen implementaties van deze klasse.
 
-Ook moet de client niet voor elke geinstantiëerde speler in de lobby kunnen schieten. Hiervoor maakt FishNet gebruik van een functie genaamd *Ownership*. Als een client geen ownership heeft van objecten in een scene kan het gebruik hiervan geblokkeerd worden.
+Ook moet de client niet voor elke geïnstantieerd speler in de lobby kunnen schieten. Hiervoor maakt FishNet gebruik van een functie genaamd *Ownership*. Als een client geen ownership heeft van objecten in een scene kan het gebruik hiervan geblokkeerd worden.
 
 Om te zorgen dat de client alleen via zijn eigen positie een projectiel kan afschieten kan de volgende functie aan het ```PlayerShootProjectile``` script toegevoegd worden:
 
@@ -123,7 +122,7 @@ public override void OnStartClient()
 ```
 
 ### 3b. De speler laten respawnen
-Indien de speler geraakt wordt door een andere speler moet deze opnieuw op een ander spawnpunt geinstantiëerd worden. Hiervoor kan het script ```PlayerRespawn``` aan de speler toegevoegd worden:
+Indien de speler geraakt wordt door een andere speler moet deze opnieuw op een ander spawnpunt geïnstantieerd worden. Hiervoor kan het script ```PlayerRespawn``` aan de speler toegevoegd worden:
 
 ```cs
 	// Add this when it works
@@ -135,7 +134,7 @@ Indien de speler geraakt wordt door een andere speler moet deze opnieuw op een a
 Om de speler *spawnable* te maken binnen de scene, moet deze toegevoegd worden aan de NetworkManager.
 
 In het Assets-tabblad van de Project-Directory, selecteer het object ```DefaultPrefabObjects```.
-Druk op het + teken onderaan de Prefabs lijst, en voeg hier de Player-prefab aan toe.
+Druk op de `+` onderaan de Prefabs lijst, en voeg hier de Player-prefab aan toe.
 
 Navigeer terug naar de NetworkManager-prefab. Om aan de NetworkManager aan te geven wat de speler is, moet in de *PlayerSpawner* een *Player Prefab* aangegeven worden. Selecteer hiervoor de player-prefab.
 
@@ -144,7 +143,7 @@ Voor het geval dat er geen andere spelers aan de lobby deelnemen wordt er een NP
 
 Ook een NPC kan worden uitgeschakeld. Om ervoor te zorgen dat deze opnieuw kan spawnen worden ook voor de NPC spawnpoints gebruikt.
 
-Maak een leeg GameObject aan met de naam ```NpcSpawnPoints```. Hierin kunnen NpcSpawnpoint prefabs toegevoegd worden. Deze bevatten een NetworkObject component en een ```NPCSpawnScript``` script:
+Maak een leeg GameObject aan met de naam ```NpcSpawnPoints```. Hierin kunnen NpcSpawnpoint prefabs toegevoegd worden. Deze bevatten een NetworkObject component en een ```NpcSpawnScript``` script:
 
 ```cs
 public class NpcSpawnScript : NetworkBehaviour
@@ -194,9 +193,9 @@ public class NpcSpawnScript : NetworkBehaviour
 
 > Dit is FishNet-specifieke code, maar de implementatie verschilt te weinig van standaard Unity om langdurig behandeld te worden.
 
-Voeg aan het NPC spawn script de NPC-prefab toe, en voer een cooldown periode naar wens in in seconden.
+Voeg aan het NPC spawn script de NPC-prefab toe, en voer een cooldown periode naar wens in, in seconden.
 
 ## 5 Met andere spelers verbinden
-Indien alles goed is ingesteld kan de game gedeeld worden met een andere persoon. Als beide personen dezelfde versie en build op het zelfde netwerk opstarten kan vervolgens via de knoppen in de FishNet HUD gekozen worden om een server en een client op te starten.
+Indien alles goed is ingesteld kan de game gedeeld worden met een andere persoon. Als beide personen dezelfde versie en build op hetzelfde netwerk opstarten, kan vervolgens via de knoppen in de FishNet HUD gekozen worden om een server en een client op te starten.
 
 > De persoon die de server start dient ook om een client te starten. Indien er al een server is op een ander systeem hoeft enkel een client opgestart te worden.
