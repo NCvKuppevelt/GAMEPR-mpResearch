@@ -17,7 +17,7 @@ Om te beginnen met multiplayer moet eerst het Unity-package van FishNet geïnsta
 Om FishNet te gebruiken kunnen de assets (zoals de eerder genoemde NetworkManager) toegevoegd worden aan een standaard Unity-project.
 
 ## 2. Het project opstellen
-Ga naar de [demo repository op GitHub]() en clone de [*naam*] branch. Open vervolgens het project in Unity.
+Ga naar de [demo repository op GitHub](https://github.com/NCvKuppevelt/GAMEPR-mpResearch/tree/workshop-demo) en clone de `workshop-demo` branch. Open vervolgens het project in Unity.
 
 Voordat spelers kunnen worden ingeladen in de scene, moet de scene van een aantal assets voorzien zijn. Namelijk:
 1. Een speelbare scene, dus een plane waarop de spelers kunnen staan
@@ -25,9 +25,7 @@ Voordat spelers kunnen worden ingeladen in de scene, moet de scene van een aanta
 3. Een FishNet [NetworkManager](https://fish-networking.gitbook.io/docs/manual/guides/components/managers/network-manager) prefab.
 
 ### 2a. De scene maken
-Binnen het project is een demo-scene genaamd ```naam``` aangeleverd, open deze.
-
-De scene bevat een standaard spelwereld met een aantal objecten waarachter spelers zich kunnen verschuilen en op kunnen springen.
+Binnen het project is een lege demo-scene genaamd ```workshop-demo``` aangeleverd, open deze.
 
 ### 2b. Een spawnpunt in de scene toevoegen
 Vervolgens moet een speler in de scene geladen kunnen worden. Dit kan worden gedaan door gebruik te maken van *spawnpoints*.
