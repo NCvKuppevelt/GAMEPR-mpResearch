@@ -141,9 +141,9 @@ Navigeer terug naar de NetworkManager-prefab. Om aan de NetworkManager aan te ge
 ## 4 Een NPC toevoegen
 Voor het geval dat er geen andere spelers aan de lobby deelnemen wordt er een NPC (*Non-Playable Character*) aan de scene toegevoegd. Ook hiervoor is al een prefab aangeleverd.
 
-Ook een NPC kan worden uitgeschakeld. Om ervoor te zorgen dat deze opnieuw kan spawnen worden ook voor de NPC spawnpoints gebruikt.
+Ook een NPC kan worden uitgeschakeld. Om ervoor te zorgen dat deze opnieuw kan spawnen worden ook voor de NPC's spawnpoints gebruikt.
 
-Maak een leeg GameObject aan met de naam ```NpcSpawnPoints```. Hierin kunnen NpcSpawnpoint prefabs toegevoegd worden. Deze bevatten een NetworkObject component en een ```NpcSpawnScript``` script:
+Maak een leeg GameObject aan met de naam ```NpcSpawnPoints```. Hierin kunnen NpcSpawnpointprefabs toegevoegd worden. Deze bevatten een NetworkObjectcomponent en een ```NpcSpawnScript```-script:
 
 ```cs
 public class NpcSpawnScript : NetworkBehaviour
@@ -193,9 +193,17 @@ public class NpcSpawnScript : NetworkBehaviour
 
 > Dit is FishNet-specifieke code, maar de implementatie verschilt te weinig van standaard Unity om langdurig behandeld te worden.
 
-Voeg aan het NPC spawn script de NPC-prefab toe, en voer een cooldown periode naar wens in, in seconden.
+Voeg aan het NPC-spawn-script de NPC-prefab toe, en voer een cooldownperiode naar wens in, in seconden.
 
 ## 5 Met andere spelers verbinden
+Als laatste stap dien je de volgende twee scripts toe te voegen aan je `NetworkManager`. 
+1. NetworkDiscoveryHud.cs
+2. NetworkDiscovery.cs
+
+In het `NetworkDiscovery`-component, bij de optie `port`, vul 7770 in, met `search-timeout` 15. Het vinkje `automatic` moet aan.
+
+Onder de `NetworkManager`, in het component `tugboat`, pas het volgende aan; vul een lokaal ip-adres van een van het tweetal in bij de optie: `client address`, deze vind je door `ipconfig` te runnen in je command prompt, pak hiervoor het IPV4-adres. Als `port` vul je 7777 in.
+
 Indien alles goed is ingesteld kan de game gedeeld worden met een andere persoon. Als beide personen dezelfde versie en build op hetzelfde netwerk opstarten, kan vervolgens via de knoppen in de FishNet HUD gekozen worden om een server en een client op te starten.
 
-> De persoon die de server start dient ook om een client te starten. Indien er al een server is op een ander systeem hoeft enkel een client opgestart te worden.
+> De persoon die de server start dient ook een client te starten. Indien er al een server is op een ander systeem hoeft enkel een client opgestart te worden.
