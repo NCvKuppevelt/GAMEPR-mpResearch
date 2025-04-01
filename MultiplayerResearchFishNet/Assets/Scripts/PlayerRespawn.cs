@@ -9,10 +9,7 @@ public class PlayerRespawn : NetworkBehaviour
 
     private void Start()
     {
-        if (SpawnManager.Instance == null)
-        {
-        }
-        else
+        if (SpawnManager.Instance != null)
         {
             spawnManager = SpawnManager.Instance;
         }
@@ -45,24 +42,25 @@ public class PlayerRespawn : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     void CmdRespawnPlayer()
     {
+        // Despawn the current player object on the server
         if (IsOwner)
         {
             NetworkObject networkObject = GetComponent<NetworkObject>();
             ServerManager.Despawn(networkObject.gameObject);
         }
 
+        // Get a random spawn point and instantiate a new player
         Transform selectedSpawnPoint = spawnManager.GetRandomSpawnPoint();
         if (selectedSpawnPoint != null)
         {
             GameObject newPlayer = Instantiate(gameObject, selectedSpawnPoint.position, Quaternion.identity);
 
+            // Spawn the new player on the server and assign ownership
             NetworkObject newNetworkObject = newPlayer.GetComponent<NetworkObject>();
             ServerManager.Spawn(newNetworkObject.gameObject, Owner);
-        }
-    }
 
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
+            // Ensure that only one player instance exists by despawning the old player
+            Destroy(gameObject); // this will remove the old player object
+        }
     }
 }
