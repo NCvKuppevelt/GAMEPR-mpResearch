@@ -122,11 +122,7 @@ public override void OnStartClient()
 ```
 
 ### 3b. De speler laten respawnen
-Indien de speler geraakt wordt door een andere speler moet deze opnieuw op een ander spawnpunt geïnstantieerd worden. Hiervoor kan het script ```PlayerRespawn``` aan de speler toegevoegd worden:
-
-```cs
-	// Add this when it works
-```
+Indien de speler geraakt wordt door een andere speler moet deze opnieuw op een ander spawnpunt geïnstantieerd worden. Hiervoor kan het script ```PlayerRespawn``` aan de speler toegevoegd worden, te vinden tussen de andere scripts. Ook moet de RespawnManager prefab toegevoegd worden aan de hierarchy, en de SpawnPoint objecten moeten in zijn lijst gesleept worden. 
 
 *NADER TE BEHANDELEN WANNEER HET WERKT*
 
