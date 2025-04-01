@@ -580,7 +580,7 @@ MonoBehaviour:
   _ipv4BindAddress: 
   _enableIpv6: 1
   _ipv6BindAddress: 
-  _port: 7770
+  _port: 7777
   _maximumClients: 4095
   _clientAddress: 192.168.2.21
 --- !u!114 &772957286
@@ -618,7 +618,7 @@ MonoBehaviour:
   secret: 
   port: 7770
   searchTimeout: 15
-  automatic: 0
+  automatic: 1
 --- !u!114 &772957288
 MonoBehaviour:
   m_ObjectHideFlags: 0
