@@ -1,11 +1,16 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using FishNet.Object;
 
 public class PlayerShootProjectile : NetworkBehaviour
 {
     private GameObject projectileSpawner;
-    public GameObject projectile;
+    public  GameObject projectile;
+
+    public           int              maxProjectiles     = 3;
+    private readonly List<GameObject> _activeProjectiles = new();
 
     public override void OnStartClient()
     {
@@ -21,23 +26,26 @@ public class PlayerShootProjectile : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            SpawnProjectile(
-                projectile,
-                projectileSpawner.transform.position,
-                projectileSpawner.transform.rotation
-            );
-        }
+        if (!Input.GetMouseButtonDown(0)) return;
+        if (_activeProjectiles.Count >= maxProjectiles) return;
+
+        SpawnProjectile(
+            projectile,
+            projectileSpawner.transform.position + projectileSpawner.transform.forward * 1.1f,
+            projectileSpawner.transform.rotation
+        );
     }
 
     [ServerRpc]
     private void SpawnProjectile(GameObject projectileObj, Vector3 position, Quaternion rotation)
     {
-        ServerManager.Spawn(Instantiate(
-            projectileObj,
-            position,
-            rotation
-        ));
+        var p = Instantiate(projectileObj, position, rotation);
+        ServerManager.Spawn(p);
+        _activeProjectiles.Add(p);
+    }
+    
+    public void RemoveProjectile(GameObject projectileToRemove)
+    {
+        _activeProjectiles.Remove(projectileToRemove);
     }
 }
