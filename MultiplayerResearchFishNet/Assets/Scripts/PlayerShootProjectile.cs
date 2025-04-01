@@ -31,7 +31,6 @@ public class PlayerShootProjectile : MonoBehaviour
         // );
     }
 
-    [ServerRpc]
     private void SpawnProjectile(
         //TODO: Implement parameters
         )
