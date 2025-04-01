@@ -326,9 +326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba2a664281018ad44a9db17333773dba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 1
-  _addedNetworkObject: {fileID: 0}
-  _networkObjectCache: {fileID: 0}
   projectile: {fileID: 87858310768339325, guid: 9de9da0f342ce9d42b71b808c7191ad5, type: 3}
   maxProjectiles: 3
 --- !u!114 &8760702858091931678
