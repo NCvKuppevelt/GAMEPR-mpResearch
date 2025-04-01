@@ -14,18 +14,18 @@ De te maken applicatie dient de volgende onderdelen te bevatten:
 ## 1. FishNet installeren
 Om te beginnen met multiplayer moet eerst het Unity-package van FishNet geïnstalleerd worden. Dit kan via deze [link](https://assetstore.unity.com/packages/tools/network/fishnet-networking-evolved-207815).
 
-Om FishNet te gebruiken kunnen de assets (zoals de eerder genoemde NetworkManager) toegevoegd worden aan een standaard Unity-project.
+Om FishNet te gebruiken kunnen de assets (zoals de eerder genoemde NetworkManager) toegevoegd worden aan een standaard Unity-project. Bij het demoproject is dit al gedaan.
 
 ## 2. Het project opstellen
 Ga naar de [demo repository op GitHub](https://github.com/NCvKuppevelt/GAMEPR-mpResearch/tree/workshop-demo) en clone de `workshop-demo` branch. Open vervolgens het project in Unity.
 
 Voordat spelers kunnen worden ingeladen in de scene, moet de scene van een aantal assets voorzien zijn. Namelijk:
 1. Een speelbare scene, dus een plane waarop de spelers kunnen staan
-2. Een spawnpunt, waarop de speler kan worden geïnstantieerd.
+2. Een of meerdere spawnpunt(en), waarop de speler kan worden geïnstantieerd.
 3. Een FishNet [NetworkManager](https://fish-networking.gitbook.io/docs/manual/guides/components/managers/network-manager) prefab.
 
 ### 2a. De scene maken
-Binnen het project is een lege demo-scene genaamd ```workshop-demo``` aangeleverd, open deze.
+Binnen het project is een lege demo-scene genaamd ```workshop-demo``` aangeleverd, open deze. Sleep de `World` prefab erin.
 
 ### 2b. Een spawnpunt in de scene toevoegen
 Vervolgens moet een speler in de scene geladen kunnen worden. Dit kan worden gedaan door gebruik te maken van *spawnpoints*.
@@ -102,7 +102,7 @@ private void SpawnProjectile()
 }
 ```
 
-Om het projectiel in te spawnen moet de server weten wat deze moet instantiëren, waar dit moet, en in welke richting. Om aan de server aan te geven dat er iets geïnstantieerd moet worden, kan gebruik gemaakt worden van ```ServerManager.Spawn()```.
+Om het projectiel in te spawnen moet de server weten wat deze moet instantiëren, waar dit moet, en in welke richting. Om aan de server aan te geven dat er iets geïnstantieerd moet worden, kan gebruik gemaakt worden van ```ServerManager.Spawn()```. Deze methode neemt een geïnstantieerd GameObject (moet een *NetworkObject* component hebben) aan als parameter.
 
 > ServerManager is een public variable binnen de NetworkBehaviour-klasse, en kan aangeroepen worden binnen implementaties van deze klasse.
 
@@ -122,22 +122,19 @@ public override void OnStartClient()
 ### 3b. De speler laten respawnen
 Indien de speler geraakt wordt door een andere speler moet deze opnieuw op een ander spawnpunt geïnstantieerd worden. Hiervoor kan het script ```PlayerRespawn``` aan de speler toegevoegd worden, te vinden tussen de andere scripts. Ook moet de RespawnManager prefab toegevoegd worden aan de hierarchy, en de SpawnPoint objecten moeten in zijn lijst gesleept worden. 
 
-*NADER TE BEHANDELEN WANNEER HET WERKT*
-
 ### 3c. De speler toevoegen aan de scene
 Om de speler *spawnable* te maken binnen de scene, moet deze toegevoegd worden aan de NetworkManager.
 
-In het Assets-tabblad van de Project-Directory, selecteer het object ```DefaultPrefabObjects```.
-Druk op de `+` onderaan de Prefabs lijst, en voeg hier de Player-prefab aan toe.
+In het Assets-tabblad van de Project-Directory, selecteer het object ```DefaultPrefabObjects```. Druk op de `+` onderaan de Prefabs lijst, en voeg hier de Player-prefab aan toe.
 
 Navigeer terug naar de NetworkManager-prefab. Om aan de NetworkManager aan te geven wat de speler is, moet in de *PlayerSpawner* een *Player Prefab* aangegeven worden. Selecteer hiervoor de player-prefab.
 
 ## 4 Een NPC toevoegen
 Voor het geval dat er geen andere spelers aan de lobby deelnemen wordt er een NPC (*Non-Playable Character*) aan de scene toegevoegd. Ook hiervoor is al een prefab aangeleverd.
 
-Ook een NPC kan worden uitgeschakeld. Om ervoor te zorgen dat deze opnieuw kan spawnen worden ook voor de NPC's spawnpoints gebruikt.
+Ook een NPC kan worden uitgeschakeld. Om ervoor te zorgen dat deze opnieuw kan spawnen, worden ook voor de NPC's spawnpoints gebruikt.
 
-Maak een leeg GameObject aan met de naam ```NpcSpawnPoints```. Hierin kunnen NpcSpawnpointprefabs toegevoegd worden. Deze bevatten een NetworkObjectcomponent en een ```NpcSpawnScript```-script:
+Maak een leeg GameObject aan met de naam ```NpcSpawnPoints```. Hierin kunnen *NpcSpawnpoint* prefabs toegevoegd worden. Deze bevatten een ```NpcSpawnScript```-script:
 
 ```cs
 public class NpcSpawnScript : NetworkBehaviour
