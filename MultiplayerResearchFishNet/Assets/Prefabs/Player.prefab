@@ -239,7 +239,6 @@ GameObject:
   - component: {fileID: 1399622566307607551}
   - component: {fileID: 1712118364434706780}
   - component: {fileID: -8710362813250823111}
-  - component: {fileID: 8760702858091931678}
   - component: {fileID: 6499502093097518311}
   m_Layer: 0
   m_Name: Player
@@ -328,22 +327,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 87858310768339325, guid: 9de9da0f342ce9d42b71b808c7191ad5, type: 3}
   maxProjectiles: 3
---- !u!114 &8760702858091931678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7284183812665175545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56d67d6f1afa18e449e1133628ff0aed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 3
-  _addedNetworkObject: {fileID: 0}
-  _networkObjectCache: {fileID: 0}
-  fallHeightThreshold: -10
 --- !u!136 &6499502093097518311
 CapsuleCollider:
   m_ObjectHideFlags: 0

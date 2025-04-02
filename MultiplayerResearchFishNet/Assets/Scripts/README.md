@@ -49,13 +49,13 @@ Binnen deze prefab staan een aantal componenten:
 
 Navigeer naar het *PlayerSpawner* component en vouw het veld *Spawns* uit. Hier kan de eerder gemaakte ```Spawnpoint``` in gesleept worden. FishNet herkent dit GameObject nu als een locatie waar de *Spawnable Prefabs* kunnen worden geïnstantieerd.
 
-Om deze *Spawnable Prefabs* aan te geven, kunnen we binnen het *NetworkManager* component van de NetworkManager-prefab een Spawnable Prefabs-Asset definiëren. FishNet maakt hiervoor standaard al een asset aan, maar indien gewenst kan een andere collectie ook zelf gecreëerd worden binnen de Asset-directory:
+Om deze *Spawnable Prefabs* aan te geven, kunnen we binnen het *NetworkManager* component van de NetworkManager-prefab een Spawnable Prefabs-Asset definiëren. FishNet maakt hiervoor standaard al een asset aan (*DefaultPrefabObjects*), maar indien gewenst kan een andere collectie ook zelf gecreëerd worden binnen de Asset-directory:
 
 > Rechtermuisklik > Create > FishNet > Spawnable Prefabs
 
 Binnen deze asset staat gedefiniëerd welke objecten FishNet kan instantiëren op de aangegeven spawnpoints. Hierover later meer.
 
-Selecteer deze asset als *Spawnable Prefabs* in het *NetworkManager* component van de NetworkManager.
+Selecteer deze *DefaultPrefabObjects* asset als *Spawnable Prefabs* in het *NetworkManager* component van de NetworkManager.
 
 ## 3. De speler toevoegen
 Nu de scene is opgesteld, kan de speler aangemaakt worden, zodat de scene straks speelbaar is.  
@@ -113,6 +113,7 @@ Om te zorgen dat de client alleen via zijn eigen positie een projectiel kan afsc
 ```cs
 public override void OnStartClient()
 {
+    // Code implementation is not too different from standard Unity, so it is already given here
     base.OnStartClient();
 	// If the instance of the script doesn't belong to the client that requested the call, disable the component
     if (!IsOwner) GetComponent<PlayerShootProjectile>().enabled = false;
@@ -184,16 +185,16 @@ public class NpcSpawnScript : NetworkBehaviour
 
 > Dit is FishNet-specifieke code, maar de implementatie verschilt te weinig van standaard Unity om langdurig behandeld te worden.
 
-Voeg aan het NPC-spawn-script de NPC-prefab toe, en voer een cooldownperiode naar wens in, in seconden.
-
 ## 5 Met andere spelers verbinden
 Als laatste stap dien je de volgende twee scripts toe te voegen aan je `NetworkManager`. 
 1. NetworkDiscoveryHud.cs
 2. NetworkDiscovery.cs
 
+Voeg evenals de componenten *TransportManager* en *Tugboat* toe.
+
 In het `NetworkDiscovery`-component, bij de optie `port`, vul 7770 in, met `search-timeout` 15. Het vinkje `automatic` moet aan.
 
-Onder de `NetworkManager`, in het component `tugboat`, pas het volgende aan; vul een lokaal ip-adres van een van het tweetal in bij de optie: `client address`, deze vind je door `ipconfig` te runnen in je command prompt, pak hiervoor het IPV4-adres. Als `port` vul je 7777 in.
+Onder de `NetworkManager`, in het component `tugboat`, pas het volgende aan; vul een lokaal ip-adres van een van het tweetal in bij de optie: `client address`, deze vind je door `ipconfig` te runnen in je command prompt, pak hiervoor het IPV4-adres van de host. Als `port` vul je 7777 in.
 
 Indien alles goed is ingesteld kan de game gedeeld worden met een andere persoon. Als beide personen dezelfde versie en build op hetzelfde netwerk opstarten, kan vervolgens via de knoppen in de FishNet HUD gekozen worden om een server en een client op te starten.
 
